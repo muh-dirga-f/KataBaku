@@ -5,33 +5,28 @@ import { Picker } from '@react-native-picker/picker';
 import Database from '../Database';
 
 const db = new Database();
-export default class KataTidakBakuEditScreen extends Component {
+export default class KategoriEditScreen extends Component {
   constructor() {
     super();
     this.state = {
-      kbId: '',
-      ktb: '',
-      kb: '',
-      kb_kategori: '',
+      idKat: '',
+      Kategori: '',
       isLoading: true,
     };
   }
 
   componentDidMount() {
-    this.state.kb_kategori = this.props.route.params.kategori_selected
-    console.warn(this.props.route.params.kategori_selected);
     this.props.navigation.setOptions({
-      title: 'Edit Kata Tidak Baku',
+      title: 'Edit Kategori',
     });
     const navigation = this.props.route.params;
-    db.findKataTidakBakuById(navigation.kbId).then((data) => {
-      console.log(data);
+    console.warn(navigation.idKat);
+    db.findKategoriById(navigation.idKat).then((data) => {
+      // console.log(data);
       const setData = data;
       this.setState({
-        kbId: setData.kbId,
-        ktb: setData.ktb,
-        kb: setData.kb,
-        kb_kategori: setData.kb_kategori,
+        idKat: setData.idKat,
+        Kategori: setData.Kategori,
         isLoading: false,
       });
     }).catch((err) => {
@@ -40,14 +35,6 @@ export default class KataTidakBakuEditScreen extends Component {
         isLoading: false
       }
     })
-  }
-
-  kategoriList = () => {
-    // const params = this.props.route.params;
-    return (this.props.route.params.arrKat.map((x, i) => {
-      // console.warn(x[1]);
-      return (<Picker.Item label={x[1]} key={i} value={x[0].toString()} />)
-    }));
   }
 
   updateTextInput = (text, field) => {
@@ -62,12 +49,10 @@ export default class KataTidakBakuEditScreen extends Component {
     });
 
     let data = {
-      kbId: this.state.kbId,
-      ktb: this.state.ktb,
-      kb: this.state.kb,
-      kb_kategori: this.state.kb_kategori
+      idKat: this.state.idKat,
+      Kategori: this.state.Kategori,
     }
-    db.updateKataTidakBaku(data.kbId, data).then((result) => {
+    db.updateKategori(data.idKat, data).then((result) => {
       console.warn(result);
       this.setState({
         isLoading: false,
@@ -95,40 +80,16 @@ export default class KataTidakBakuEditScreen extends Component {
           <TextInput
             editable={false}
             placeholder={'ID'}
-            value={this.state.kbId.toString()}
-            onChangeText={(text) => this.updateTextInput(text, 'kbId')}
+            value={this.state.idKat.toString()}
+            onChangeText={(text) => this.updateTextInput(text, 'idKat')}
           />
         </View>
         <View style={styles.subContainer}>
           <TextInput
-            placeholder={'Kata Tidak Baku'}
-            value={this.state.ktb}
-            onChangeText={(text) => this.updateTextInput(text, 'ktb')}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <TextInput
-            placeholder={'Kata Baku'}
-            value={this.state.kb}
-            onChangeText={(text) => this.updateTextInput(text, 'kb')}
-          />
-        </View>
-        <View>
-          {/* <TextInput
-            // multiline={true}
-            // numberOfLines={4}
             placeholder={'Kategori'}
-            value={this.state.kb_kategori}
-            onChangeText={(text) => this.updateTextInput(text, 'kb_kategori')}
-          /> */}
-          <Picker
-            selectedValue={this.state.kb_kategori}
-            style={{ height: 50, width: 150 }}
-            onValueChange={(itemValue, itemIndex) => this.updateTextInput(itemValue, 'kb_kategori')}
-          // onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-          >
-            { this.kategoriList() }
-          </Picker>
+            value={this.state.Kategori}
+            onChangeText={(text) => this.updateTextInput(text, 'Kategori')}
+          />
         </View>
         <View style={styles.button}>
           <Button

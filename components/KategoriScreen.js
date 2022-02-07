@@ -5,50 +5,43 @@ import Database from '../Database';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const db = new Database();
-export default class KataTidakBakuScreen extends Component {
+export default class KategoriScreen extends Component {
   constructor() {
     super();
     this.state = {
       isLoading: true,
       isFetching: false,
-      KataTidakBaku: [],
-      arrKategori: [],
+      Kategori: [],
       notFound: 'Database kosong.\nTekan tombol (+) untuk menambah data.'
     };
   }
   componentDidMount() {
     this.forceUpdate();
-    this.getKataTidakBaku();
-    db.listKategori().then((res) => {
-      res.forEach(element => {
-        this.state.arrKategori.push([element.idKat,element.Kategori])
-      })
-
-    })
+    this.getKategori();
 
     this.props.navigation.setOptions({
-      title: 'List Kata Tidak Baku',
+      title: 'List Kategori',
       headerRight: () => (
         <Button
           buttonStyle={{ padding: 0, backgroundColor: 'transparent' }}
           icon={{ name: 'add', style: { marginRight: 0, fontSize: 28 } }}
           onPress={() => {
-            this.props.navigation.navigate('KataTidakBakuAdd', {arrKat: this.state.arrKategori});
+            this.props.navigation.navigate('KategoriAdd');
           }}
         />
       )
     });
   }
   onRefresh() {
-    this.setState({ isFetching: true }, () => { this.getKataTidakBaku(); });
-    console.warn(this.state.KataTidakBaku);
+    this.setState({ isFetching: true }, () => { this.getKategori(); });
+    console.warn(this.state.Kategori);
   }
-  getKataTidakBaku() {
-    let KataTidakBaku = [];
-    db.listKataTidakBaku().then((data) => {
-      KataTidakBaku = data;
+  getKategori() {
+    let Kategori = [];
+    db.listKategori().then((data) => {
+      Kategori = data;
       this.setState({
-        KataTidakBaku,
+        Kategori,
         isLoading: false,
         isFetching: false
       });
@@ -63,14 +56,13 @@ export default class KataTidakBakuScreen extends Component {
   keyExtractor = (item, index) => index.toString()
   renderItem = ({ item }) => (
     <ListItem bottomDivider onPress={() => {
-      this.props.navigation.navigate('KataTidakBakuDetail', {
-        kbId: `${item.kbId}`, arrKat: this.state.arrKategori,
+      this.props.navigation.navigate('KategoriDetail', {
+        idKat: `${item.idKat}`,
       });
     }}>
       {/* <Avatar title={item.kbId}/> */}
       <ListItem.Content>
-        <ListItem.Title>{item.ktb}</ListItem.Title>
-        <ListItem.Subtitle>{item.kb}</ListItem.Subtitle>
+        <ListItem.Title>{item.Kategori}</ListItem.Title>
       </ListItem.Content>
       <ListItem.Chevron />
     </ListItem>
@@ -83,7 +75,7 @@ export default class KataTidakBakuScreen extends Component {
         </View>
       )
     }
-    if (this.state.KataTidakBaku.length === 0) {
+    if (this.state.Kategori.length === 0) {
       return (
         <View>
           <Text style={styles.message}>{this.state.notFound}</Text>
@@ -93,7 +85,7 @@ export default class KataTidakBakuScreen extends Component {
     return (
       <FlatList
         keyExtractor={this.keyExtractor}
-        data={this.state.KataTidakBaku}
+        data={this.state.Kategori}
         renderItem={this.renderItem}
         refreshControl={<RefreshControl onRefresh={() => this.onRefresh()}
         refreshing={this.state.isFetching} />}

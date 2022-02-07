@@ -2,33 +2,21 @@ import React, { Component } from 'react';
 import { StyleSheet, ScrollView, ActivityIndicator, View, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 import Database from '../Database';
-import { Picker } from '@react-native-picker/picker';
 
 const db = new Database();
 
-export default class KataTidakBakuAddScreen extends Component {
+export default class KategoriAddScreen extends Component {
   constructor() {
     super();
     this.state = {
-      // kbId: '',
-      kb: '',
-      ktb: '',
-      kb_kategori: '',
+      Kategori: '',
       isLoading: false,
     };
   }
   componentDidMount() {
     this.props.navigation.setOptions({
-      title: 'Tambah Kata Tidak Baku',
+      title: 'Tambah Kategori',
     });
-    // this.kategoriList()
-  }
-  kategoriList = () => {
-    // const params = this.props.route.params;
-    return (this.props.route.params.arrKat.map((x, i) => {
-      console.warn(x[1]);
-      return (<Picker.Item label={x[1]} key={i} value={x[0].toString()} />)
-    }));
   }
   updateTextInput = (text, field) => {
     const state = this.state
@@ -41,11 +29,9 @@ export default class KataTidakBakuAddScreen extends Component {
     });
     let data = {
       // kbId: this.state.kbId,
-      ktb: this.state.ktb,
-      kb: this.state.kb,
-      kb_kategori: this.state.kb_kategori,
+      Kategori: this.state.Kategori,
     }
-    db.addKataTidakBaku(data).then((result) => {
+    db.addKategori(data).then((result) => {
       console.log(result);
       this.setState({
         isLoading: false,
@@ -66,41 +52,14 @@ export default class KataTidakBakuAddScreen extends Component {
         </View>
       )
     }
-    // this.tes()
     return (
       <ScrollView style={styles.container}>
         <View style={styles.subContainer}>
           <TextInput
-            placeholder={'Kata Tidak Baku'}
-            value={this.state.ktb}
-            onChangeText={(text) => this.updateTextInput(text, 'ktb')}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <TextInput
-            // multiline={true}
-            // numberOfLines={4}
-            placeholder={'Kata Baku'}
-            value={this.state.kb}
-            onChangeText={(text) => this.updateTextInput(text, 'kb')}
-          />
-        </View>
-        <View>
-          {/* <TextInput
-            // multiline={true}
-            // numberOfLines={4}
             placeholder={'Kategori'}
-            value={this.state.kb_kategori}
-            onChangeText={(text) => this.updateTextInput(text, 'kb_kategori')}
-          /> */}
-          <Picker
-            selectedValue={this.state.kb_kategori}
-            style={{ height: 50, width: 150 }}
-            onValueChange={(itemValue, itemIndex) => this.updateTextInput(itemValue, 'kb_kategori')}
-          // onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-          >
-            { this.kategoriList() }
-          </Picker>
+            value={this.state.Kategori}
+            onChangeText={(text) => this.updateTextInput(text, 'Kategori')}
+          />
         </View>
         <View style={styles.button}>
           <Button

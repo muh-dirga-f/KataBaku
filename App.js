@@ -4,6 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, View, TextInput, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MenuScreen from './components/MenuScreen';
+import KategoriScreen from './components/KategoriScreen';
+import KategoriAddScreen from './components/KategoriAddScreen';
+import KategoriDetailScreen from './components/KategoriDetailScreen';
+import KategoriEditScreen from './components/KategoriEditScreen';
 import KataTidakBakuScreen from './components/KataTidakBakuScreen';
 import KataTidakBakuDetailsScreen from './components/KataTidakBakuDetailsScreen';
 import KataTidakBakuAddScreen from './components/KataTidakBakuAddScreen';
@@ -39,7 +44,7 @@ class HomeScreen extends React.Component {
             />
           }
           onPress={() => {
-            this.props.navigation.navigate('KataTidakBaku');
+            this.props.navigation.navigate('Menu');
           }}
         />
       )
@@ -65,7 +70,7 @@ class HomeScreen extends React.Component {
             kalimat.push(<Text style={styles.highLight}>{v} </Text>)
             this.state.hasil.push(
               <View>
-                <Text>{id = id + 1}. <Text style={{ fontWeight: 'bold', color: 'red' }}>{data.ktb}</Text> = {data.kb}</Text>
+                <Text>{id = id + 1}. <Text style={{ fontWeight: 'bold', color: 'red' }}>{data.ktb}</Text> = {data.kb} [{data.Kategori}]</Text>
               </View>
             )
           }
@@ -76,7 +81,7 @@ class HomeScreen extends React.Component {
             kalimat.push(<Text style={styles.highLight}>{kata[i] + " " + kata[i + 1]} </Text>)
             this.state.hasil.push(
               <View>
-                <Text>{id = id + 1}. <Text style={{ fontWeight: 'bold', color: 'red' }}>{data.ktb}</Text> = {data.kb}</Text>
+                <Text>{id = id + 1}. <Text style={{ fontWeight: 'bold', color: 'red' }}>{data.ktb}</Text> = {data.kb} [{data.Kategori}]</Text>
               </View>
             )
             // kirim index kata yang akan di hapus
@@ -141,6 +146,11 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Menu" component={MenuScreen} />
+        <Stack.Screen name="Kategori" component={KategoriScreen} />
+        <Stack.Screen name="KategoriAdd" component={KategoriAddScreen} />
+        <Stack.Screen name="KategoriDetail" component={KategoriDetailScreen} />
+        <Stack.Screen name="KategoriEdit" component={KategoriEditScreen} />
         <Stack.Screen name="KataTidakBaku" component={KataTidakBakuScreen} />
         <Stack.Screen name="KataTidakBakuDetail" component={KataTidakBakuDetailsScreen} />
         <Stack.Screen name="KataTidakBakuAdd" component={KataTidakBakuAddScreen} />

@@ -5,7 +5,7 @@ import Database from '../Database';
 
 const db = new Database();
 
-export default class KataTidakBakuDetailsScreen extends Component {
+export default class KategoriDetailsScreen extends Component {
   constructor() {
     super();
     this.state = {
@@ -16,15 +16,15 @@ export default class KataTidakBakuDetailsScreen extends Component {
   }
   componentDidMount() {
     this.props.navigation.setOptions({
-      title: 'Detail Kata Tidak Baku',
+      title: 'Detail Kategori',
     });
     const params = this.props.route.params;
-    db.findKataTidakBakuById(params.kbId).then((data) => {
+    db.findKategoriById(params.idKat).then((data) => {
       data = data;
       this.setState({
         data: data,
         isLoading: false,
-        id: data.kbId
+        id: data.idKat
       });
     }).catch((err) => {
       console.log(err);
@@ -33,11 +33,11 @@ export default class KataTidakBakuDetailsScreen extends Component {
       }
     })
   }
-  deleteKataTidakBaku(id) {
+  deleteKategori(id) {
     this.setState({
       isLoading: true
     });
-    db.deleteKataTidakBaku(id).then((result) => {
+    db.deleteKategori(id).then((result) => {
       console.log(result);
       this.props.navigation.goBack();
     }).catch((err) => {
@@ -60,21 +60,10 @@ export default class KataTidakBakuDetailsScreen extends Component {
         <Card style={styles.container}>
           <View style={styles.subContainer}>
             <View>
-              <Text style={{ fontSize: 16 }}>ID: {this.state.data.kbId}</Text>
+              <Text style={{ fontSize: 16 }}>ID: {this.state.data.idKat}</Text>
             </View>
             <View>
-              <Text style={{ fontSize: 16 }}>Kata Tidak Baku: {this.state.data.ktb}</Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 16 }}>Kata Baku: {this.state.data.kb}</Text>
-            </View>
-            <View>
-              {/* <Text style={{ fontSize: 16 }}>Kategori: {this.state.data.kb_kategori}</Text> */}
-              <Text style={{ fontSize: 16 }}>Kategori: {
-                this.props.route.params.arrKat.filter((v) => {
-                  return v[0] == this.state.data.kb_kategori
-                })[0][1]
-              }</Text>
+              <Text style={{ fontSize: 16 }}>Kategori: {this.state.data.Kategori}</Text>
             </View>
           </View>
           <View style={styles.detailButton}>
@@ -84,8 +73,8 @@ export default class KataTidakBakuDetailsScreen extends Component {
               leftIcon={{ name: 'edit' }}
               title='Edit'
               onPress={() => {
-                this.props.navigation.navigate('KataTidakBakuEdit', {
-                  kbId: `${this.state.id}`, arrKat: this.props.route.params.arrKat, kategori_selected: this.state.data.kb_kategori,
+                this.props.navigation.navigate('KategoriEdit', {
+                  idKat: `${this.state.id}`,
                 });
               }} />
           </View>
@@ -96,7 +85,7 @@ export default class KataTidakBakuDetailsScreen extends Component {
               color={'#FFFFFF'}
               leftIcon={{ name: 'delete' }}
               title='Delete'
-              onPress={() => this.deleteKataTidakBaku(this.state.id)} />
+              onPress={() => this.deleteKategori(this.state.id)} />
           </View>
         </Card>
       </ScrollView>
