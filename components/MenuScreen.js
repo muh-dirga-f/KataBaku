@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { RefreshControl, StyleSheet, FlatList, ActivityIndicator, View, Text } from 'react-native';
-import { ListItem, Button } from 'react-native-elements';
+import { Button, ListItem } from 'react-native-elements';
 import Database from '../Database';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -40,13 +40,18 @@ export default class MenuScreen extends Component {
             )
         }
         return (
-            <FlatList
-                keyExtractor={this.keyExtractor}
-                data={[{ "Id": 1, "Judul": "Data Kategori", "Link": "Kategori" }, { "Id": 2, "Judul": "Data Kata Baku", "Link": "KataTidakBaku" }]}
-                renderItem={this.renderItem}
-                refreshControl={<RefreshControl onRefresh={() => this.onRefresh()}
-                    refreshing={this.state.isFetching} />}
-            />
+            <View>
+                
+                <FlatList
+                    keyExtractor={this.keyExtractor}
+                    data={[{ "Id": 1, "Judul": "Data Kategori", "Link": "Kategori" }, { "Id": 2, "Judul": "Data Kata Baku", "Link": "KataTidakBaku" }]}
+                    renderItem={this.renderItem}
+                    refreshControl={<RefreshControl onRefresh={() => this.onRefresh()}
+                        refreshing={this.state.isFetching} />}
+                />
+                <Button title="Logout" onPress={() => this.props.navigation.navigate('Home', {
+                loginStatus: false})} buttonStyle={{ backgroundColor: 'red', width: '50%', alignSelf: 'center', marginTop: 15 }}/>
+            </View>
         );
     }
 }
