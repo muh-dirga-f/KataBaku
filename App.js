@@ -159,7 +159,7 @@ function HomeScreen({ route, navigation }) {
         </View>
         <View>
           <Button
-            title="Cek"
+            title="Periksa Kata Baku dan Tidak Baku"
             buttonStyle={{ backgroundColor: 'green' }}
             onPress={() => cekKataTidakBaku()}
           />
